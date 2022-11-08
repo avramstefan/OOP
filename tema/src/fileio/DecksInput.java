@@ -1,6 +1,8 @@
 package fileio;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.*;
 
 public final class DecksInput {
     private int nrCardsInDeck;
@@ -8,6 +10,25 @@ public final class DecksInput {
     private ArrayList<ArrayList<CardInput>> decks;
 
     public DecksInput() {
+    }
+
+    public void shuffleDeck(int deckIdx, int seed) {
+        Random randomObject = new Random();
+        randomObject.setSeed(seed);
+
+
+        if (nrDecks == 2 && nrCardsInDeck == 5) {
+            System.out.println(seed);
+            for (int i = 0; i < decks.get(deckIdx).size(); i++)
+                System.out.print(decks.get(deckIdx).get(i).getName() + " ");
+            System.out.println();
+        }
+        Collections.shuffle(decks.get(deckIdx), randomObject);
+        if (nrDecks == 2 && nrCardsInDeck == 5) {
+            for (int i = 0; i < decks.get(deckIdx).size(); i++)
+                System.out.print(decks.get(deckIdx).get(i).getName() + " ");
+            System.out.println("\n\n");
+        }
     }
 
     public int getNrCardsInDeck() {

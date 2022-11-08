@@ -6,10 +6,18 @@ public final class Input {
     private DecksInput playerOneDecks;
     private DecksInput playerTwoDecks;
     private ArrayList<GameInput> games;
+    private int gameIdx = -1;
 
     public Input() {
     }
 
+    public int getGameIdx() {
+        return gameIdx;
+    }
+
+    public void setGameIdx(int gameIdx) {
+        this.gameIdx = gameIdx;
+    }
     public ArrayList<GameInput> getGames() {
         return games;
     }

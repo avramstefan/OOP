@@ -6,13 +6,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import checker.CheckerConstants;
-import fileio.Input;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import fileio.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -70,6 +72,27 @@ public final class Main {
         ArrayNode output = objectMapper.createArrayNode();
 
         //TODO add here the entry point to your implementation
+
+        DecksInput playerOneDecks = inputData.getPlayerOneDecks();
+        DecksInput playerTwoDecks = inputData.getPlayerTwoDecks();
+        ArrayList<GameInput> games = inputData.getGames();
+
+        for (int i = 0; i < games.size(); i++) {
+            inputData.setGameIdx(inputData.getGameIdx() + 1);
+            inputData.getGames().get(inputData.getGameIdx()).setGameParameters(inputData);
+
+            StartGameInput startGame = games.get(i).getStartGame();
+            ArrayList<ActionsInput> gameActions = games.get(i).getActions();
+
+            for (int j = 0; j < gameActions.size(); j++) {
+                ObjectNode newActionObject = objectMapper.createObjectNode();
+
+                gameActions.get(j).run(newActionObject, objectMapper, inputData);
+
+                output.add(newActionObject);
+            }
+        }
+
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePath2), output);
