@@ -13,6 +13,7 @@ public class TheCursedOne extends Card {
     private ArrayList<String> colors;
     private String name;
     private String type;
+    private String specificType;
 
     TheCursedOne() {
         super();
@@ -21,6 +22,7 @@ public class TheCursedOne extends Card {
     public TheCursedOne(CardInput cardInput) {
         super(cardInput);
         this.type = "Minion";
+        this.specificType = "BackMinion";
     }
 
     public String getType() {
@@ -31,6 +33,15 @@ public class TheCursedOne extends Card {
         this.type = type;
     }
 
+    @Override
+    public String getSpecificType() {
+        return specificType;
+    }
+
+    @Override
+    public void setSpecificType(String specificType) {
+        this.specificType = specificType;
+    }
 
     @Override
     public String toString() {

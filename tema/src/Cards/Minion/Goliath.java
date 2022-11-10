@@ -13,6 +13,7 @@ public class Goliath extends Card {
     private ArrayList<String> colors;
     private String name;
     private String type;
+    private String specificType;
 
     Goliath() {
         super();
@@ -21,6 +22,17 @@ public class Goliath extends Card {
     public Goliath(CardInput cardInput) {
         super(cardInput);
         this.type = "Minion";
+        this.specificType = "FrontTankMinion";
+    }
+
+    @Override
+    public String getSpecificType() {
+        return specificType;
+    }
+
+    @Override
+    public void setSpecificType(String specificType) {
+        this.specificType = specificType;
     }
 
     public String getType() {

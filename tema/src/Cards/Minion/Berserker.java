@@ -13,6 +13,7 @@ public class Berserker extends Card {
     private ArrayList<String> colors;
     private String name;
     private String type;
+    private String specificType;
 
     Berserker() {
         super();
@@ -21,6 +22,17 @@ public class Berserker extends Card {
     public Berserker(CardInput cardInput) {
         super(cardInput);
         this.type = "Minion";
+        this.specificType = "BackMinion";
+    }
+
+    @Override
+    public String getSpecificType() {
+        return specificType;
+    }
+
+    @Override
+    public void setSpecificType(String minionType) {
+        this.specificType = minionType;
     }
 
     public String getType() {

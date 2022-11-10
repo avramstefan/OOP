@@ -13,6 +13,7 @@ public class Sentinel extends Card {
     private ArrayList<String> colors;
     private String name;
     private String type;
+    private String specificType;
 
     Sentinel() {
         super();
@@ -21,6 +22,17 @@ public class Sentinel extends Card {
     public Sentinel(CardInput cardInput) {
         super(cardInput);
         this.type = "Minion";
+        this.specificType = "BackMinion";
+    }
+
+    @Override
+    public String getSpecificType() {
+        return specificType;
+    }
+
+    @Override
+    public void setSpecificType(String specificType) {
+        this.specificType = specificType;
     }
 
     public String getType() {

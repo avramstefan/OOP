@@ -12,24 +12,25 @@ import java.util.ArrayList;
 
 public class Commands {
 
+    private static void getSingleCard(ObjectNode cardNode, Card card) {
+        cardNode.put("mana", card.getMana());
+
+        if (card.getType().equals("Minion")) {
+            cardNode.put("attackDamage", card.getAttackDamage());
+            cardNode.put("health", card.getHealth());
+        }
+        cardNode.put("description", card.getDescription());
+
+        ArrayNode colorsNode = cardNode.putArray("colors");
+        for (String color : card.getColors())
+            colorsNode.add(color);
+
+        cardNode.put("name", card.getName());
+    }
     private static void getCardsGeneric(ArrayNode outputNode, ArrayList<Card> cards) {
         for (Card card : cards) {
             ObjectNode cardNode = (new ObjectMapper()).createObjectNode();
-            System.out.println(card.getMana());
-            cardNode.put("mana", card.getMana());
-
-            if (card.getType().equals("Minion")) {
-                cardNode.put("attackDamage", card.getAttackDamage());
-                cardNode.put("health", card.getHealth());
-            }
-            cardNode.put("description", card.getDescription());
-
-            ArrayNode colorsNode = cardNode.putArray("colors");
-            for (String color : card.getColors())
-                colorsNode.add(color);
-
-            cardNode.put("name", card.getName());
-
+            getSingleCard(cardNode, card);
             outputNode.add(cardNode);
         }
     }
@@ -105,9 +106,21 @@ public class Commands {
 
     public static ObjectNode placeCard(Game game, String command, int handIdx) {
         Player player = game.getPlayers().get(game.getTurn() - 1);
-        Card cardToPlace = player.getHand().placeFromHandToTable(handIdx);
-        if (cardToPlace != null)
+
+        if (handIdx >= player.getHand().getCards().size())
+            return null;
+
+        Card cardToPlace = player.getHand().getCards().get(handIdx);
+        System.out.println(game.getTurn() - 1 + " " + player.getMana() + " " + cardToPlace.getMana() + " " + cardToPlace.getName() + "\n\n");
+        if (cardToPlace != null && player.getMana() >= cardToPlace.getMana()) {
             game.getTable().placeCardOnTable(game.getTurn(), cardToPlace);
+            player.getHand().removeCard(handIdx);
+            player.setMana(player.getMana() - cardToPlace.getMana());
+        }
+//        if (cardToPlace != null) {
+//            game.getTable().placeCardOnTable(game.getTurn(), cardToPlace);
+//            player.getHand().removeCard(handIdx);
+//        }
         return null;
     }
 
@@ -131,6 +144,26 @@ public class Commands {
         actionObj.put("command", command);
         actionObj.put("playerIdx", playerIdx);
         actionObj.put("output", game.getPlayers().get(playerIdx - 1).getMana());
+
+        return actionObj;
+    }
+
+    public static ObjectNode getCardsOnTable(Game game, String command) {
+        ObjectNode actionObj = (new ObjectMapper()).createObjectNode();
+        actionObj.put("command", command);
+        ArrayNode allCardsFromTable = actionObj.putArray("output");
+
+        Table table = game.getTable();
+        for (ArrayList<Card> rowCards : table.getCards()) {
+            ArrayNode cardsFromRow = (new ObjectMapper()).createArrayNode();
+            for (Card card : rowCards) {
+                ObjectNode cardNode = (new ObjectMapper()).createObjectNode();
+                getSingleCard(cardNode, card);
+                cardsFromRow.add(cardNode);
+            }
+            if (cardsFromRow.size() != 0)
+                allCardsFromTable.add(cardsFromRow);
+        }
 
         return actionObj;
     }

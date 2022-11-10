@@ -21,10 +21,18 @@ public class Table {
     }
 
     public void placeCardOnTable(int playerIdx, Card card) {
-        if (playerIdx == 1)
-            cards.get(3).add(card);
-        else
-            cards.get(0).add(card);
+
+        if (playerIdx == 1) {
+            if (card.getSpecificType().equals("BackMinion"))
+                cards.get(3).add(card);
+            else
+                cards.get(2).add(card);
+        } else {
+            if (card.getSpecificType().equals("BackMinion"))
+                cards.get(0).add(card);
+            else
+                cards.get(1).add(card);
+        }
     }
 
     public ArrayList<Coordinates> getCoordinates() {

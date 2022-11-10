@@ -13,6 +13,7 @@ public class Card {
     private String name;
     private boolean isFrozen;
     private String type;
+    private String specificType;
 
     public Card() {
     }
@@ -25,7 +26,16 @@ public class Card {
         this.colors = cardInput.getColors();
         this.name = cardInput.getName();
         this.type = "Card";
+        this.specificType = "NoSpecificType";
         this.isFrozen = false;
+    }
+
+    public String getSpecificType() {
+        return specificType;
+    }
+
+    public void setSpecificType(String specificType) {
+        this.specificType = specificType;
     }
 
     public boolean isFrozen() {

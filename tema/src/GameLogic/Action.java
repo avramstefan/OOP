@@ -45,6 +45,8 @@ public class Action {
             return Commands.getCardsInHand(game, command, playerIdx);
         else if (command.equals("getPlayerMana"))
             return Commands.getPlayerMana(game, command, playerIdx);
+        else if (command.equals("getCardsOnTable"))
+            return Commands.getCardsOnTable(game, command);
         return null;
     }
 

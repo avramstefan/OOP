@@ -13,6 +13,7 @@ public class TheRipper extends Card {
     private ArrayList<String> colors;
     private String name;
     private String type;
+    private String specificType;
 
     TheRipper() {
         super();
@@ -21,6 +22,7 @@ public class TheRipper extends Card {
     public TheRipper(CardInput cardInput) {
         super(cardInput);
         this.type = "Minion";
+        this.specificType = "FrontMinion";
     }
 
     public String getType() {
@@ -31,6 +33,15 @@ public class TheRipper extends Card {
         this.type = type;
     }
 
+    @Override
+    public String getSpecificType() {
+        return specificType;
+    }
+
+    @Override
+    public void setSpecificType(String specificType) {
+        this.specificType = specificType;
+    }
 
     @Override
     public String toString() {

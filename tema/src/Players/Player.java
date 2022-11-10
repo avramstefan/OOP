@@ -26,7 +26,7 @@ public class Player {
         }
         this.hand = new Hand();
         this.currentGame = null;
-        this.mana = 1;
+        this.mana = 0;
     }
 
 
