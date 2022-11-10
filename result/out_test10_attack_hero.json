@@ -1,39 +1,7 @@
-[ {
-  "command" : "endPlayerTurn"
-}, {
-  "command" : "placeCard"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "endPlayerTurn"
-}, {
-  "command" : "placeCard"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "endPlayerTurn"
-}, {
-  "command" : "placeCard"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "endPlayerTurn"
-}, {
-  "command" : "getCardsInHand"
-}, {
-  "command" : "getPlayerMana"
-}, {
+[ null, null, null, null, null, null, null, null, null, null, null, null, null, {
   "command" : "getPlayerTurn",
   "output" : 1
-}, {
-  "command" : "placeCard"
-}, {
-  "command" : "getCardAtPosition"
-}, {
-  "command" : "getCardAtPosition"
-}, {
+}, null, null, null, {
   "command" : "getPlayerHero",
   "playerIdx" : 1,
   "output" : {
@@ -53,36 +21,10 @@
     "name" : "Lord Royce",
     "health" : 30
   }
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "endPlayerTurn"
-}, {
-  "command" : "placeCard"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "endPlayerTurn"
-}, {
-  "command" : "getCardsInHand"
-}, {
-  "command" : "getPlayerMana"
-}, {
+}, null, null, null, null, null, null, null, null, null, null, {
   "command" : "getPlayerTurn",
   "output" : 1
-}, {
-  "command" : "placeCard"
-}, {
-  "command" : "getCardAtPosition"
-}, {
-  "command" : "getCardAtPosition"
-}, {
+}, null, null, null, {
   "command" : "getPlayerHero",
   "playerIdx" : 1,
   "output" : {
@@ -102,18 +44,4 @@
     "name" : "Lord Royce",
     "health" : 30
   }
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "getPlayerMana"
-}, {
-  "command" : "getPlayerMana"
-}, {
-  "command" : "getCardsOnTable"
-}, {
-  "command" : "getCardsInHand"
-}, {
-  "command" : "getCardsInHand"
-} ]
+}, null, null, null, null, null, null, null ]

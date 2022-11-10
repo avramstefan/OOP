@@ -1,5 +1,8 @@
 package main;
 
+import Decks.Decks;
+import GameLogic.Game;
+import Players.Player;
 import checker.Checker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -77,20 +80,33 @@ public final class Main {
         DecksInput playerTwoDecks = inputData.getPlayerTwoDecks();
         ArrayList<GameInput> games = inputData.getGames();
 
-        for (int i = 0; i < games.size(); i++) {
-            inputData.setGameIdx(inputData.getGameIdx() + 1);
-            inputData.getGames().get(inputData.getGameIdx()).setGameParameters(inputData);
+//        for (int i = 0; i < games.size(); i++) {
+//            inputData.setGameIdx(inputData.getGameIdx() + 1);
+//            inputData.getGames().get(inputData.getGameIdx()).setGameParameters(inputData);
+//
+//            StartGameInput startGame = games.get(i).getStartGame();
+//            ArrayList<ActionsInput> gameActions = games.get(i).getActions();
+//
+//            for (int j = 0; j < gameActions.size(); j++) {
+//                ObjectNode newActionObject = objectMapper.createObjectNode();
+//
+//                gameActions.get(j).run(newActionObject, objectMapper, inputData);
+//
+//                output.add(newActionObject);
+//            }
+//        }
 
-            StartGameInput startGame = games.get(i).getStartGame();
-            ArrayList<ActionsInput> gameActions = games.get(i).getActions();
+        for (GameInput game : inputData.getGames()) {
+            game.setGameParameters(inputData);
 
-            for (int j = 0; j < gameActions.size(); j++) {
-                ObjectNode newActionObject = objectMapper.createObjectNode();
+            Decks newPlayerOneDeck = new Decks(playerOneDecks);
+            Decks newPlayerTwoDeck = new Decks(playerTwoDecks);
 
-                gameActions.get(j).run(newActionObject, objectMapper, inputData);
+            Player playerOne = new Player(newPlayerOneDeck, game.getStartGame(), 1);
+            Player playerTwo = new Player(newPlayerTwoDeck, game.getStartGame(), 2);
 
-                output.add(newActionObject);
-            }
+            Game currentGame = new Game(game.getStartGame(), playerOne, playerTwo, game.getActions());
+            currentGame.runGame(output);
         }
 
 
@@ -98,3 +114,30 @@ public final class Main {
         objectWriter.writeValue(new File(filePath2), output);
     }
 }
+
+/*
+class Cards:
+    Minion:
+        -Sentinel
+        -Berserker
+        -Goliath
+        -Warden
+        -Miraj
+        -The Ripper
+        -Disciple
+        -The Cursed One
+    Environment
+        -Firestorm
+        -Winterfell
+        -Heart Hound
+    Hero
+        -Lord Royce
+        -Empress Thorina
+        -King Mudface
+        -General Kocioraw
+class Players:
+    PlayerOne
+    PlayerTwo
+class Decks:
+class Game:
+ */
