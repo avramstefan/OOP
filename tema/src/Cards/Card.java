@@ -11,7 +11,7 @@ public class Card {
     private String description;
     private ArrayList<String> colors;
     private String name;
-
+    private boolean isFrozen;
     private String type;
 
     public Card() {
@@ -25,6 +25,15 @@ public class Card {
         this.colors = cardInput.getColors();
         this.name = cardInput.getName();
         this.type = "Card";
+        this.isFrozen = false;
+    }
+
+    public boolean isFrozen() {
+        return isFrozen;
+    }
+
+    public void setFrozen(boolean frozen) {
+        isFrozen = frozen;
     }
 
     public String getType() {

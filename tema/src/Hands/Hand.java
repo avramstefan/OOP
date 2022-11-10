@@ -13,6 +13,15 @@ public class Hand {
         this.cards = new ArrayList<>();
     }
 
+    public Card placeFromHandToTable(int handIdx) {
+        if (handIdx < cards.size()) {
+            Card cardToPlace = cards.get(handIdx);
+            cards.remove(handIdx);
+            return cardToPlace;
+        }
+        return null;
+    }
+
     public void addCard(Card card) {
         cards.add(card);
     }

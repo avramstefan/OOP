@@ -1,4 +1,30 @@
-[ null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, {
+[ {
   "command" : "getPlayerTurn",
   "output" : 1
-}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ]
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 2,
+  "output" : 9
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 1,
+  "output" : 9
+}, {
+  "command" : "getCardsInHand",
+  "playerIdx" : 2,
+  "output" : [ {
+    "mana" : 2,
+    "description" : "Standard card: The dragon was unleashed, run for your lives.",
+    "colors" : [ "Red", "Yellow" ],
+    "name" : "Firestorm"
+  } ]
+}, {
+  "command" : "getCardsInHand",
+  "playerIdx" : 1,
+  "output" : [ {
+    "mana" : 1,
+    "description" : "Premium card: The fury of hell is upon us, please kill us.",
+    "colors" : [ "Red", "Yellow" ],
+    "name" : "Firestorm"
+  } ]
+} ]

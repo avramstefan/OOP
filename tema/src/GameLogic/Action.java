@@ -37,6 +37,14 @@ public class Action {
             return Commands.getPlayerHero(game, playerIdx, command);
         else if (command.equals("getPlayerDeck"))
             return Commands.getPlayerDeck(game, playerIdx, command);
+        else if (command.equals("endPlayerTurn"))
+            return Commands.endPlayerTurn(game, command);
+        else if (command.equals("placeCard"))
+            return Commands.placeCard(game, command, handIdx);
+        else if (command.equals("getCardsInHand"))
+            return Commands.getCardsInHand(game, command, playerIdx);
+        else if (command.equals("getPlayerMana"))
+            return Commands.getPlayerMana(game, command, playerIdx);
         return null;
     }
 

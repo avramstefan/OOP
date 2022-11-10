@@ -1,19 +1,101 @@
-[ null, null, null, null, {
-  "command" : "getPlayerTurn",
-  "output" : 2
-}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, {
-  "command" : "getPlayerTurn",
-  "output" : 2
-}, null, null, null, null, null, {
-  "command" : "getPlayerTurn",
-  "output" : 2
-}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, {
+[ {
   "command" : "getPlayerTurn",
   "output" : 1
-}, null, null, {
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 1,
+  "output" : 2
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 2,
+  "output" : 3
+}, {
   "command" : "getPlayerTurn",
   "output" : 1
-}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, {
+}, {
+  "command" : "getPlayerTurn",
+  "output" : 2
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 2,
+  "output" : 5
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 1,
+  "output" : 5
+}, {
+  "command" : "getCardsInHand",
+  "playerIdx" : 2,
+  "output" : [ {
+    "mana" : 1,
+    "description" : "Premium card: The fury of hell is upon us, please kill us.",
+    "colors" : [ "Blue", "Green", "White" ],
+    "name" : "Firestorm"
+  } ]
+}, {
+  "command" : "getCardsInHand",
+  "playerIdx" : 1,
+  "output" : [ {
+    "mana" : 2,
+    "attackDamage" : 6,
+    "health" : 3,
+    "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
+    "colors" : [ "Black", "Yellow" ],
+    "name" : "The Ripper"
+  } ]
+}, {
   "command" : "getPlayerTurn",
   "output" : 1
-}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ]
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 1,
+  "output" : 2
+}, {
+  "command" : "getPlayerTurn",
+  "output" : 2
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 2,
+  "output" : 3
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 1,
+  "output" : 4
+}, {
+  "command" : "getPlayerTurn",
+  "output" : 1
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 1,
+  "output" : 5
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 1,
+  "output" : 5
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 2,
+  "output" : 5
+}, {
+  "command" : "getCardsInHand",
+  "playerIdx" : 1,
+  "output" : [ ]
+}, {
+  "command" : "getCardsInHand",
+  "playerIdx" : 2,
+  "output" : [ {
+    "mana" : 2,
+    "attackDamage" : 5,
+    "health" : 1,
+    "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
+    "colors" : [ "Red", "Blue", "Pink" ],
+    "name" : "Berserker"
+  }, {
+    "mana" : 2,
+    "attackDamage" : 7,
+    "health" : 6,
+    "description" : "Premium card: You shall not pass, you shall not prevail, you shall perish.",
+    "colors" : [ "Black", "White", "Green" ],
+    "name" : "Warden"
+  } ]
+} ]
