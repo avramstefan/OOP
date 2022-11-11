@@ -58,6 +58,12 @@ public class Action {
                 return Commands.getCardAtPosition(game, command, x, y);
             case "getFrozenCardsOnTable":
                 return Commands.getFrozenCardsOnTable(game, command);
+            case "cardUsesAttack":
+                return Commands.cardAction(game, command, cardAttacker, cardAttacked, "usesAttack");
+            case "cardUsesAbility":
+                return Commands.cardAction(game, command, cardAttacker, cardAttacked, "usesAbility");
+            case "useAttackHero":
+                return Commands.useAttackHero(game, command, cardAttacker);
         }
         return null;
     }

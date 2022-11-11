@@ -7,6 +7,7 @@ import Table.Table;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import fileio.Coordinates;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -98,9 +99,10 @@ public class Commands {
 
         for (int i = 4 / playerIdx - 2; i < 4 / playerIdx; i++) {
             ArrayList<Card> tableRowCards = table.getCards().get(i);
-            for (Card card : tableRowCards)
-                if (card.isFrozen())
-                    card.setFrozen(false);
+            for (Card card : tableRowCards) {
+                card.setFrozen(false);
+                card.setHasAttacked(false);
+            }
         }
 
         return null;
@@ -223,13 +225,13 @@ public class Commands {
 
         if (card.getSpecificType().equals("HeartHound")) {
             if (checkMirrorRowAvailability(table, affectedRow)) {
-                card.useSpecialAbility(table, affectedRow);
+                card.useEnvironmentAbility(table, affectedRow);
             } else {
                 actionObj.put("error", "Cannot steal enemy card since the player's row is full.");
                 return actionObj;
             }
         } else {
-            card.useSpecialAbility(table, affectedRow);
+            card.useEnvironmentAbility(table, affectedRow);
         }
 
         player.getHand().getCards().remove(handIdx);
@@ -243,7 +245,6 @@ public class Commands {
         actionObj.put("playerIdx", playerIdx);
 
         ArrayNode output = actionObj.putArray("output");
-        System.out.println(playerIdx);
         Hand hand = game.getPlayers().get(playerIdx - 1).getHand();
         for (Card card : hand.getCards()) {
             if (card.getType().equals("Environment")) {
@@ -291,5 +292,154 @@ public class Commands {
         }
 
         return actionObj;
+    }
+
+    public static boolean enemyHasTank(Table table, int frontRow) {
+        for (Card card : table.getCards().get(frontRow))
+            if (card.getSpecificType().equals("FrontTankMinion"))
+                return true;
+        return false;
+    }
+
+    public static void addCoordinatesOutput(ObjectNode actionObj, Coordinates attackerCoord, Coordinates attackedCoord) {
+        ObjectNode attackerObj = (new ObjectMapper()).createObjectNode();
+        ObjectNode attackedObj = (new ObjectMapper()).createObjectNode();
+
+        attackerObj.put("x", attackerCoord.getX());
+        attackerObj.put("y", attackerCoord.getY());
+        attackedObj.put("x", attackedCoord.getX());
+        attackedObj.put("y", attackedCoord.getY());
+
+        actionObj.set("cardAttacker", attackerObj);
+        actionObj.set("cardAttacked", attackedObj);
+    }
+
+    public static boolean checkExistenceOfCard(Game game, Coordinates coordinates) {
+        return game.getTable().getCards().get(coordinates.getX()).size() <= coordinates.getY();
+    }
+
+    public static boolean checkAttackedCardIsFromEnemy(Coordinates attackerCoord, Coordinates attackedCoord) {
+        return (attackerCoord.getX() < 2 && attackedCoord.getX() < 2) ||
+                (attackerCoord.getX() > 1 && attackedCoord.getX() > 1);
+    }
+
+    public static ObjectNode cardAction(Game game, String command, Coordinates attackerCoord,
+                                        Coordinates attackedCoord, String typeOfAction) {
+        ObjectNode actionObj = (new ObjectMapper()).createObjectNode();
+        actionObj.put("command", command);
+
+        addCoordinatesOutput(actionObj, attackerCoord, attackedCoord);
+
+        if (checkExistenceOfCard(game, attackerCoord) || checkExistenceOfCard(game, attackedCoord)) {
+            return null;
+        }
+
+        Table table = game.getTable();
+        Card cardAttacked = table.getCards().get(attackedCoord.getX()).get(attackedCoord.getY());
+        Card cardAttacker = table.getCards().get(attackerCoord.getX()).get(attackerCoord.getY());
+
+        if (cardAttacker.isFrozen()) {
+            actionObj.put("error", "Attacker card is frozen.");
+            return actionObj;
+        }
+
+        if (cardAttacker.hasAttacked()) {
+            actionObj.put("error", "Attacker card has already attacked this turn.");
+            return actionObj;
+        }
+
+        if (!(typeOfAction.equals("usesAbility") && cardAttacker.getName().equals("Disciple"))) {
+            if (checkAttackedCardIsFromEnemy(attackerCoord, attackedCoord)) {
+                actionObj.put("error", "Attacked card does not belong to the enemy.");
+                return actionObj;
+            }
+
+            int backAttackedRow = 3;
+            int frontAttackedRow = 2;
+            if (game.getTurn() == 1) {
+                backAttackedRow = 0;
+                frontAttackedRow = 1;
+            }
+
+            if (enemyHasTank(table, frontAttackedRow) && !cardAttacked.getSpecificType().equals("FrontTankMinion")) {
+                actionObj.put("error", "Attacked card is not of type 'Tank'.");
+                return actionObj;
+            }
+
+            if (typeOfAction.equals("usesAttack")) {
+                cardAttacker.attack(cardAttacked, table, attackedCoord.getX(), attackedCoord.getY());
+            } else {
+                cardAttacker.useMinionAbility(cardAttacked);
+
+                if (cardAttacked.getHealth() == 0)
+                    table.getCards().get(attackedCoord.getX()).remove(attackedCoord.getY());
+            }
+        } else {
+            if (!checkAttackedCardIsFromEnemy(attackerCoord, attackedCoord)) {
+                actionObj.put("error", "Attacked card does not belong to the current player.");
+                return actionObj;
+            }
+            cardAttacker.useMinionAbility(cardAttacked);
+        }
+
+        return null;
+    }
+
+    public static ObjectNode useAttackHero(Game game, String command, Coordinates attackerCoord) {
+        ObjectNode actionObj = (new ObjectMapper()).createObjectNode();
+        actionObj.put("command", command);
+
+        if (checkExistenceOfCard(game, attackerCoord)) {
+            return null;
+        }
+
+        ObjectNode attackerObj = (new ObjectMapper()).createObjectNode();
+        attackerObj.put("x", attackerCoord.getX());
+        attackerObj.put("y", attackerCoord.getY());
+        actionObj.set("cardAttacker", attackerObj);
+
+        Card card = game.getTable().getCards().get(attackerCoord.getX()).get(attackerCoord.getY());
+
+        if (card.isFrozen()) {
+            actionObj.put("error", "Attacker card is frozen.");
+            return actionObj;
+        }
+
+        if (card.hasAttacked()) {
+            actionObj.put("error", "Attacker card has already attacked this turn.");
+            return actionObj;
+        }
+
+        int frontAttackedRow = 1;
+        if (game.getTurn() == 2)
+            frontAttackedRow = 2;
+
+        if (enemyHasTank(game.getTable(), frontAttackedRow)) {
+            actionObj.put("error", "Attacked card is not of type 'Tank'.");
+            return actionObj;
+        }
+
+        Player attackedPlayer;
+        if (game.getTurn() == 1)
+            attackedPlayer = game.getPlayers().get(1);
+        else
+            attackedPlayer = game.getPlayers().get(0);
+
+        Card heroCard = attackedPlayer.getHero();
+        heroCard.setHealth(heroCard.getHealth() - card.getAttackDamage());
+
+        card.setHasAttacked(true);
+
+        if (heroCard.getHealth() <= 0) {
+            ObjectNode endObj = (new ObjectMapper()).createObjectNode();
+            if (game.getTurn() == 1)
+                endObj.put("gameEnded", "Player one killed the enemy hero.");
+            else
+                endObj.put("gameEnded", "Player two killed the enemy hero.");
+            game.setHeroDied(true);
+            return endObj;
+        }
+
+        return null;
     }
 }

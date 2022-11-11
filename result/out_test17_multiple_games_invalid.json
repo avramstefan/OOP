@@ -75,6 +75,8 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
+  "gameEnded" : "Player two killed the enemy hero."
+}, {
   "command" : "getCardsOnTable",
   "output" : [ [ {
     "mana" : 1,
@@ -104,14 +106,7 @@
     "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper"
-  } ], [ {
-    "mana" : 1,
-    "attackDamage" : 6,
-    "health" : 4,
-    "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
-    "colors" : [ "Orange", "Red", "Black" ],
-    "name" : "The Ripper"
-  } ], [ {
+  } ], [ ], [ {
     "mana" : 2,
     "attackDamage" : 5,
     "health" : 1,
@@ -219,7 +214,7 @@
   "output" : {
     "mana" : 2,
     "attackDamage" : 7,
-    "health" : 6,
+    "health" : 1,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden"
@@ -258,21 +253,16 @@
   "output" : {
     "mana" : 2,
     "attackDamage" : 7,
-    "health" : 6,
+    "health" : 1,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden"
   }
 }, {
+  "gameEnded" : "Player one killed the enemy hero."
+}, {
   "command" : "getCardsOnTable",
   "output" : [ [ {
-    "mana" : 1,
-    "attackDamage" : 5,
-    "health" : 2,
-    "description" : "Premium card: Fear him. Your last breath is now.",
-    "colors" : [ "Red", "Blue", "Pink" ],
-    "name" : "Berserker"
-  }, {
     "mana" : 1,
     "attackDamage" : 0,
     "health" : 1,
@@ -289,7 +279,7 @@
   } ], [ {
     "mana" : 2,
     "attackDamage" : 7,
-    "health" : 6,
+    "health" : 1,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden"

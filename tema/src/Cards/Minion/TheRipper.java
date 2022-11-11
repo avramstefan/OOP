@@ -1,6 +1,7 @@
 package Cards.Minion;
 
 import Cards.Card;
+import Table.Table;
 import fileio.CardInput;
 
 import java.util.ArrayList;
@@ -25,6 +26,14 @@ public class TheRipper extends Card {
         this.specificType = "FrontMinion";
     }
 
+    @Override
+    public void useMinionAbility(Card cardAttacked) {
+        super.useMinionAbility(cardAttacked);
+        cardAttacked.setAttackDamage(cardAttacked.getAttackDamage() - 2);
+
+        if (cardAttacked.getAttackDamage() < 0)
+            cardAttacked.setAttackDamage(0);
+    }
     public String getType() {
         return type;
     }

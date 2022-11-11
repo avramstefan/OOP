@@ -15,6 +15,7 @@ public class Card {
     private boolean isFrozen;
     private String type;
     private String specificType;
+    private boolean hasAttacked; // for turn attack
 
     public Card() {
     }
@@ -29,10 +30,32 @@ public class Card {
         this.type = "Card";
         this.specificType = "NoSpecificType";
         this.isFrozen = false;
+        this.hasAttacked = false;
     }
 
-    public void useSpecialAbility(Table table, int affectedRow) {
+    public void attack(Card cardAttacked, Table table, int x, int y) {
+        cardAttacked.setHealth(cardAttacked.getHealth() - this.attackDamage);
 
+        if (cardAttacked.getHealth() <= 0) {
+            table.getCards().get(x).remove(y);
+        }
+
+        this.hasAttacked = true;
+    }
+    public boolean hasAttacked() {
+        return hasAttacked;
+    }
+
+    public void setHasAttacked(boolean hasAttacked) {
+        this.hasAttacked = hasAttacked;
+    }
+
+    public void useEnvironmentAbility(Table table, int affectedRow) {
+
+    }
+
+    public void useMinionAbility(Card cardAttacked) {
+        this.hasAttacked = true;
     }
 
     public String getSpecificType() {

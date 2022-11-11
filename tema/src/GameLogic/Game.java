@@ -4,6 +4,7 @@ import Cards.Card;
 import Decks.Decks;
 import Players.Player;
 import Table.Table;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fileio.ActionsInput;
@@ -20,6 +21,7 @@ public class Game {
     private ArrayList<Player> players;
     private ArrayList<Action> actions;
     private Table table;
+    private boolean heroDied;
 
     public Game(StartGameInput gameParameters, Player playerOne, Player playerTwo, ArrayList<ActionsInput> actions) {
         this.turn = gameParameters.getStartingPlayer();
@@ -40,13 +42,16 @@ public class Game {
 
         this.table = new Table();
         this.nrOfRound = 0;
+        this.heroDied = false;
     }
 
     public void runGame(ArrayNode output) {
 
         for (Action action : actions) {
 
-            setTurnParameters();
+//            if (heroDied)
+//                break;
+
             if (newRound)
                 setRoundParameters();
 
@@ -60,22 +65,18 @@ public class Game {
         ArrayList<Card> deckPlayerOne = players.get(0).getAllDecks().getDecks().get(players.get(0).getDeckIdx());
         ArrayList<Card> deckPlayerTwo = players.get(1).getAllDecks().getDecks().get(players.get(1).getDeckIdx());
 
-        if (deckPlayerOne.size() != 0 && deckPlayerTwo.size() != 0) {
-
+        if (deckPlayerOne.size() != 0) {
             Card firstCardPlayerOne = deckPlayerOne.get(0);
-            Card firstCardPlayerTwo = deckPlayerTwo.get(0);
-
             deckPlayerOne.remove(0);
-            deckPlayerTwo.remove(0);
-
             players.get(0).getHand().addCard(firstCardPlayerOne);
+        }
+        if (deckPlayerTwo.size() != 0) {
+            Card firstCardPlayerTwo = deckPlayerTwo.get(0);
+            deckPlayerTwo.remove(0);
             players.get(1).getHand().addCard(firstCardPlayerTwo);
         }
     }
 
-    public void setTurnParameters() {
-
-    }
     private void setRoundParameters() {
         getCardInHandsFromDeck();
         newRound = false;
@@ -87,8 +88,18 @@ public class Game {
         players.get(1).setMana(players.get(1).getMana() + nrOfRound);
 
         for (ArrayList<Card> rowCard : table.getCards())
-            for (Card card : rowCard)
-                card.setFrozen(false);
+            for (Card card : rowCard) {
+                //card.setFrozen(false);
+                card.setHasAttacked(false);
+            }
+    }
+
+    public boolean isHeroDied() {
+        return heroDied;
+    }
+
+    public void setHeroDied(boolean heroDied) {
+        this.heroDied = heroDied;
     }
 
     public int getNrOfRound() {

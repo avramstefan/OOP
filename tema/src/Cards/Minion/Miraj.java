@@ -1,6 +1,7 @@
 package Cards.Minion;
 
 import Cards.Card;
+import Table.Table;
 import fileio.CardInput;
 
 import java.util.ArrayList;
@@ -25,7 +26,15 @@ public class Miraj extends Card {
         this.specificType = "FrontMinion";
     }
 
+    @Override
+    public void useMinionAbility(Card cardAttacked) {
+        super.useMinionAbility(cardAttacked);
 
+        int temp = cardAttacked.getHealth();
+        cardAttacked.setHealth(super.getHealth());
+        super.setHealth(temp);
+
+    }
     @Override
     public String getSpecificType() {
         return specificType;

@@ -27,7 +27,7 @@ public class Firestorm extends Card {
     }
 
     @Override
-    public void useSpecialAbility(Table table, int affectedRow) {
+    public void useEnvironmentAbility(Table table, int affectedRow) {
         ArrayList<Card> rowCards = table.getCards().get(affectedRow);
         ArrayList<Integer> cardsToBeRemoved = new ArrayList<>();
 

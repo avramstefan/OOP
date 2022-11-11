@@ -27,7 +27,7 @@ public class HeartHound extends Card {
     }
 
     @Override
-    public void useSpecialAbility(Table table, int affectedRow) {
+    public void useEnvironmentAbility(Table table, int affectedRow) {
         ArrayList<Card> rowCards = table.getCards().get(affectedRow);
         int idxMaxHealth = 0;
         Card cardToBeStolen = rowCards.get(0);

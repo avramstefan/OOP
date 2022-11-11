@@ -27,7 +27,7 @@ public class Winterfell extends Card {
     }
 
     @Override
-    public void useSpecialAbility(Table table, int affectedRow) {
+    public void useEnvironmentAbility(Table table, int affectedRow) {
         for (Card card : table.getCards().get(affectedRow))
             card.setFrozen(true);
     }

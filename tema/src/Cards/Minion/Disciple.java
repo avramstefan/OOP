@@ -1,6 +1,7 @@
 package Cards.Minion;
 
 import Cards.Card;
+import Table.Table;
 import fileio.CardInput;
 
 import java.util.ArrayList;
@@ -23,6 +24,11 @@ public class Disciple extends Card {
         super(cardInput);
         this.type = "Minion";
         this.specificType = "BackMinion";
+    }
+    @Override
+    public void useMinionAbility(Card cardAttacked) {
+        super.useMinionAbility(cardAttacked);
+        cardAttacked.setHealth(cardAttacked.getHealth() + 2);
     }
 
     @Override
