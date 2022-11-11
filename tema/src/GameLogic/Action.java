@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import fileio.ActionsInput;
 import fileio.Coordinates;
 
+import java.security.cert.CertPath;
+
 public class Action {
     private String command;
     private int handIdx;
@@ -31,22 +33,32 @@ public class Action {
     }
 
     public ObjectNode run() {
-        if (command.equals("getPlayerTurn"))
-            return Commands.getPlayerTurn(game, command);
-        else if (command.equals("getPlayerHero"))
-            return Commands.getPlayerHero(game, playerIdx, command);
-        else if (command.equals("getPlayerDeck"))
-            return Commands.getPlayerDeck(game, playerIdx, command);
-        else if (command.equals("endPlayerTurn"))
-            return Commands.endPlayerTurn(game, command);
-        else if (command.equals("placeCard"))
-            return Commands.placeCard(game, command, handIdx);
-        else if (command.equals("getCardsInHand"))
-            return Commands.getCardsInHand(game, command, playerIdx);
-        else if (command.equals("getPlayerMana"))
-            return Commands.getPlayerMana(game, command, playerIdx);
-        else if (command.equals("getCardsOnTable"))
-            return Commands.getCardsOnTable(game, command);
+        switch (command) {
+            case "getPlayerTurn":
+                return Commands.getPlayerTurn(game, command);
+            case "getPlayerHero":
+                return Commands.getPlayerHero(game, playerIdx, command);
+            case "getPlayerDeck":
+                return Commands.getPlayerDeck(game, playerIdx, command);
+            case "endPlayerTurn":
+                return Commands.endPlayerTurn(game, command);
+            case "placeCard":
+                return Commands.placeCard(game, command, handIdx);
+            case "getCardsInHand":
+                return Commands.getCardsInHand(game, command, playerIdx);
+            case "getPlayerMana":
+                return Commands.getPlayerMana(game, command, playerIdx);
+            case "getCardsOnTable":
+                return Commands.getCardsOnTable(game, command);
+            case "useEnvironmentCard":
+                return Commands.useEnvironmentCard(game, command, handIdx, affectedRow);
+            case "getEnvironmentCardsInHand":
+                return Commands.getEnvironmentCardsInHand(game, command, playerIdx);
+            case "getCardAtPosition":
+                return Commands.getCardAtPosition(game, command, x, y);
+            case "getFrozenCardsOnTable":
+                return Commands.getFrozenCardsOnTable(game, command);
+        }
         return null;
     }
 

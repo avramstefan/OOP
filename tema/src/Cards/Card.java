@@ -1,5 +1,6 @@
 package Cards;
 
+import Table.Table;
 import fileio.CardInput;
 
 import java.util.ArrayList;
@@ -28,6 +29,10 @@ public class Card {
         this.type = "Card";
         this.specificType = "NoSpecificType";
         this.isFrozen = false;
+    }
+
+    public void useSpecialAbility(Table table, int affectedRow) {
+
     }
 
     public String getSpecificType() {

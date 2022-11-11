@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class Game {
     private boolean newRound;
     private int nrTurnsTaken;
+    private int nrOfRound;
     private int turn; // 1 for playerOne, 2 for playerTwo
     private int shuffleSeed;
     private ArrayList<Player> players;
@@ -38,12 +39,14 @@ public class Game {
             this.actions.add(new Action(actionInput, this));
 
         this.table = new Table();
+        this.nrOfRound = 0;
     }
 
     public void runGame(ArrayNode output) {
 
         for (Action action : actions) {
 
+            setTurnParameters();
             if (newRound)
                 setRoundParameters();
 
@@ -70,14 +73,30 @@ public class Game {
         }
     }
 
+    public void setTurnParameters() {
+
+    }
     private void setRoundParameters() {
         getCardInHandsFromDeck();
         newRound = false;
 
-        if (players.get(0).getMana() < 10)
-            players.get(0).setMana(players.get(0).getMana() + 1);
-        if (players.get(1).getMana() < 10)
-            players.get(1).setMana(players.get(1).getMana() + 1);
+        if (nrOfRound < 10)
+            nrOfRound++;
+
+        players.get(0).setMana(players.get(0).getMana() + nrOfRound);
+        players.get(1).setMana(players.get(1).getMana() + nrOfRound);
+
+        for (ArrayList<Card> rowCard : table.getCards())
+            for (Card card : rowCard)
+                card.setFrozen(false);
+    }
+
+    public int getNrOfRound() {
+        return nrOfRound;
+    }
+
+    public void setNrOfRound(int nrOfRound) {
+        this.nrOfRound = nrOfRound;
     }
 
     public int getNrTurnsTaken() {

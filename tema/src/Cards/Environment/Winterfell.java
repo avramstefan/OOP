@@ -1,6 +1,7 @@
 package Cards.Environment;
 
 import Cards.Card;
+import Table.Table;
 import fileio.CardInput;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class Winterfell extends Card {
     private ArrayList<String> colors;
     private String name;
     private String type;
+    private String specificType;
 
     Winterfell() {
         super();
@@ -21,7 +23,25 @@ public class Winterfell extends Card {
     public Winterfell(CardInput cardInput) {
         super(cardInput);
         this.type = "Environment";
+        this.specificType = "Winterfell";
     }
+
+    @Override
+    public void useSpecialAbility(Table table, int affectedRow) {
+        for (Card card : table.getCards().get(affectedRow))
+            card.setFrozen(true);
+    }
+
+    @Override
+    public String getSpecificType() {
+        return specificType;
+    }
+
+    @Override
+    public void setSpecificType(String specificType) {
+        this.specificType = specificType;
+    }
+
 
     public String getType() {
         return type;

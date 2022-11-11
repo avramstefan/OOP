@@ -21,17 +21,38 @@ public class Table {
     }
 
     public void placeCardOnTable(int playerIdx, Card card) {
+        int backRowIdx = 0;
+        int frontRowIdx = 1;
 
         if (playerIdx == 1) {
-            if (card.getSpecificType().equals("BackMinion"))
-                cards.get(3).add(card);
-            else
-                cards.get(2).add(card);
+            backRowIdx = 3;
+            frontRowIdx = 2;
+        }
+
+        if (card.getSpecificType().equals("BackMinion"))
+            cards.get(backRowIdx).add(card);
+        else
+            cards.get(frontRowIdx).add(card);
+
+    }
+
+    public boolean checkRowAvailability(int playerIdx, Card card) {
+        int backRowIdx = 0;
+        int frontRowIdx = 1;
+
+        if (playerIdx == 1) {
+            backRowIdx = 3;
+            frontRowIdx = 2;
+        }
+
+        if (card.getSpecificType().equals("BackMinion")) {
+            if (cards.get(backRowIdx).size() == 5)
+                return false;
+            return true;
         } else {
-            if (card.getSpecificType().equals("BackMinion"))
-                cards.get(0).add(card);
-            else
-                cards.get(1).add(card);
+            if (cards.get(frontRowIdx).size() == 5)
+                return false;
+            return true;
         }
     }
 
