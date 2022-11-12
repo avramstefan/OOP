@@ -2,6 +2,10 @@ package Decks;
 
 import Cards.Card;
 import Cards.Environment.*;
+import Cards.Hero.EmpressThorina;
+import Cards.Hero.GeneralKocioraw;
+import Cards.Hero.KingMudface;
+import Cards.Hero.LordRoyce;
 import Cards.Minion.*;
 import fileio.CardInput;
 import fileio.DecksInput;
@@ -30,7 +34,7 @@ public class Decks {
         }
     }
 
-    private Card assignClassToCard(CardInput card) {
+    public static Card assignClassToCard(CardInput card) {
         if (card.getName().equals("Berserker"))
             return new Berserker(card);
         else if (card.getName().equals("Disciple"))
@@ -53,6 +57,14 @@ public class Decks {
             return new Winterfell(card);
         else if (card.getName().equals("Heart Hound"))
             return new HeartHound(card);
+        else if (card.getName().equals("General Kocioraw"))
+            return new GeneralKocioraw(card);
+        else if (card.getName().equals("Lord Royce"))
+            return new LordRoyce(card);
+        else if (card.getName().equals("King Mudface"))
+            return new KingMudface(card);
+        else if (card.getName().equals("Empress Thorina"))
+            return new EmpressThorina(card);
         return null;
     }
 

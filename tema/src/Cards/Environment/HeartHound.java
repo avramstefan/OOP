@@ -28,14 +28,8 @@ public class HeartHound extends Card {
 
     @Override
     public void useEnvironmentAbility(Table table, int affectedRow) {
-        ArrayList<Card> rowCards = table.getCards().get(affectedRow);
-        int idxMaxHealth = 0;
-        Card cardToBeStolen = rowCards.get(0);
-        for (int i = 1; i < rowCards.size(); i++)
-            if (cardToBeStolen.getHealth() < rowCards.get(i).getHealth()) {
-                idxMaxHealth = i;
-                cardToBeStolen = rowCards.get(i);
-            }
+        ArrayList<Card> cards = table.getCards().get(affectedRow);
+        Card cardToBeStolen = super.removeCardOfMaxHealth(cards);
 
         if (affectedRow == 0) {
             table.getCards().get(3).add(cardToBeStolen);
@@ -46,8 +40,6 @@ public class HeartHound extends Card {
         } else {
             table.getCards().get(0).add(cardToBeStolen);
         }
-
-        rowCards.remove(idxMaxHealth);
     }
 
     @Override

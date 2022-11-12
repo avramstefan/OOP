@@ -7,6 +7,9 @@ import Hands.Hand;
 import fileio.GameInput;
 import fileio.StartGameInput;
 
+import java.util.Collections;
+import java.util.Random;
+
 public class Player {
     private Decks allDecks;
     private Hand hand;
@@ -15,15 +18,21 @@ public class Player {
     private Game currentGame;
     private int mana;
 
-    public Player(Decks decks, StartGameInput gameParameters, int player) {
+    public Player(Decks decks, StartGameInput gameParameters, int player, int shuffleSeed) {
         this.allDecks = decks;
+
         if (player == 1) {
             this.deckIdx = gameParameters.getPlayerOneDeckIdx();
-            this.hero = new Card(gameParameters.getPlayerOneHero());
+            this.hero = Decks.assignClassToCard(gameParameters.getPlayerOneHero());
         } else {
             this.deckIdx = gameParameters.getPlayerTwoDeckIdx();
-            this.hero = new Card(gameParameters.getPlayerTwoHero());
+            this.hero = Decks.assignClassToCard(gameParameters.getPlayerTwoHero());
         }
+
+        Random randomObject = new Random();
+        randomObject.setSeed(shuffleSeed);
+        Collections.shuffle(allDecks.getDecks().get(deckIdx), randomObject);
+
         this.hand = new Hand();
         this.currentGame = null;
         this.mana = 0;

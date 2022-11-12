@@ -64,6 +64,13 @@ public class Action {
                 return Commands.cardAction(game, command, cardAttacker, cardAttacked, "usesAbility");
             case "useAttackHero":
                 return Commands.useAttackHero(game, command, cardAttacker);
+            case "useHeroAbility":
+                return Commands.useHeroAbility(game, command, affectedRow);
+            case "getPlayerOneWins":
+            case "getPlayerTwoWins":
+                return Commands.getPlayerWins(game, command);
+            case "getTotalGamesPlayed":
+                return Commands.getTotalGamesPlayed(game, command);
         }
         return null;
     }

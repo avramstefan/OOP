@@ -21,8 +21,8 @@ public final class GameInput {
 
                 playerTurn = startGame.getStartingPlayer();
 
-                inputData.getPlayerOneDecks().shuffleDeck(startGame.getPlayerOneDeckIdx(), startGame.getShuffleSeed());
-                inputData.getPlayerTwoDecks().shuffleDeck(startGame.getPlayerTwoDeckIdx(), startGame.getShuffleSeed());
+//                inputData.getPlayerOneDecks().shuffleDeck(startGame.getPlayerOneDeckIdx(), startGame.getShuffleSeed());
+//                inputData.getPlayerTwoDecks().shuffleDeck(startGame.getPlayerTwoDeckIdx(), startGame.getShuffleSeed());
         }
 
         public int getPlayerTurn() {

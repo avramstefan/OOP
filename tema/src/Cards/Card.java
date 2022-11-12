@@ -46,6 +46,25 @@ public class Card {
         return hasAttacked;
     }
 
+    public Card removeCardOfMaxHealth(ArrayList<Card> cards) {
+        int indexOfCardToRemove = 0;
+        Card cardToRemove = cards.get(0);
+
+        for (int i = 1; i < cards.size(); i++) {
+            if (cards.get(i).getHealth() > cardToRemove.getHealth()) {
+                indexOfCardToRemove = i;
+                cardToRemove = cards.get(i);
+            }
+        }
+
+        cards.remove(indexOfCardToRemove);
+        return cardToRemove;
+    }
+
+    public void useHeroAbility(Table table, int affectedRow) {
+
+    }
+
     public void setHasAttacked(boolean hasAttacked) {
         this.hasAttacked = hasAttacked;
     }

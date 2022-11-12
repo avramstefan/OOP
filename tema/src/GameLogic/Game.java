@@ -22,6 +22,9 @@ public class Game {
     private ArrayList<Action> actions;
     private Table table;
     private boolean heroDied;
+    private static int playerOneWins;
+    private static int playerTwoWins;
+    private static int totalGamesPlayed;
 
     public Game(StartGameInput gameParameters, Player playerOne, Player playerTwo, ArrayList<ActionsInput> actions) {
         this.turn = gameParameters.getStartingPlayer();
@@ -43,14 +46,12 @@ public class Game {
         this.table = new Table();
         this.nrOfRound = 0;
         this.heroDied = false;
+        Game.totalGamesPlayed++;
     }
 
     public void runGame(ArrayNode output) {
 
         for (Action action : actions) {
-
-//            if (heroDied)
-//                break;
 
             if (newRound)
                 setRoundParameters();
@@ -81,17 +82,50 @@ public class Game {
         getCardInHandsFromDeck();
         newRound = false;
 
-        if (nrOfRound < 10)
+        if (nrOfRound < 10) {
             nrOfRound++;
-
-        players.get(0).setMana(players.get(0).getMana() + nrOfRound);
-        players.get(1).setMana(players.get(1).getMana() + nrOfRound);
+            players.get(0).setMana(players.get(0).getMana() + nrOfRound);
+            players.get(1).setMana(players.get(1).getMana() + nrOfRound);
+        } else {
+            players.get(0).setMana(players.get(0).getMana() + 10);
+            players.get(1).setMana(players.get(1).getMana() + 10);
+        }
 
         for (ArrayList<Card> rowCard : table.getCards())
             for (Card card : rowCard) {
                 //card.setFrozen(false);
                 card.setHasAttacked(false);
             }
+    }
+
+    public static void resetScores() {
+        Game.setTotalGamesPlayed(0);
+        Game.setPlayerOneWins(0);
+        Game.setPlayerTwoWins(0);
+    }
+
+    public static int getPlayerOneWins() {
+        return playerOneWins;
+    }
+
+    public static void setPlayerOneWins(int playerOneWins) {
+        Game.playerOneWins = playerOneWins;
+    }
+
+    public static int getPlayerTwoWins() {
+        return playerTwoWins;
+    }
+
+    public static void setPlayerTwoWins(int playerTwoWins) {
+        Game.playerTwoWins = playerTwoWins;
+    }
+
+    public static int getTotalGamesPlayed() {
+        return totalGamesPlayed;
+    }
+
+    public static void setTotalGamesPlayed(int totalGamesPlayed) {
+        Game.totalGamesPlayed = totalGamesPlayed;
     }
 
     public boolean isHeroDied() {

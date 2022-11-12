@@ -97,6 +97,8 @@ public class Commands {
         Player player = game.getPlayers().get(playerIdx - 1);
         Table table = game.getTable();
 
+        player.getHero().setHasAttacked(false);
+
         for (int i = 4 / playerIdx - 2; i < 4 / playerIdx; i++) {
             ArrayList<Card> tableRowCards = table.getCards().get(i);
             for (Card card : tableRowCards) {
@@ -165,7 +167,7 @@ public class Commands {
         return actionObj;
     }
 
-    public static ObjectNode getCardsOnTable(Game game, String command) {
+    public static ObjectNode getCardsOnTable(final Game game, String command) {
         ObjectNode actionObj = (new ObjectMapper()).createObjectNode();
         actionObj.put("command", command);
         ArrayNode allCardsFromTable = actionObj.putArray("output");
@@ -432,14 +434,76 @@ public class Commands {
 
         if (heroCard.getHealth() <= 0) {
             ObjectNode endObj = (new ObjectMapper()).createObjectNode();
-            if (game.getTurn() == 1)
+            if (game.getTurn() == 1) {
                 endObj.put("gameEnded", "Player one killed the enemy hero.");
-            else
+                Game.setPlayerOneWins(Game.getPlayerOneWins() + 1);
+            } else {
                 endObj.put("gameEnded", "Player two killed the enemy hero.");
+                Game.setPlayerTwoWins(Game.getPlayerTwoWins() + 1);
+            }
             game.setHeroDied(true);
             return endObj;
         }
 
         return null;
     }
+
+    public static ObjectNode useHeroAbility(Game game, String command, int affectedRow) {
+        ObjectNode actionObj = (new ObjectMapper()).createObjectNode();
+        actionObj.put("command", command);
+        actionObj.put("affectedRow", affectedRow);
+
+        int currentPlayer = game.getTurn();
+        Player player = game.getPlayers().get(currentPlayer - 1);
+        Card heroCard = player.getHero();
+
+        if (player.getMana() < heroCard.getMana()) {
+            actionObj.put("error", "Not enough mana to use hero's ability.");
+            return actionObj;
+        }
+
+        if (heroCard.hasAttacked()) {
+            actionObj.put("error", "Hero has already attacked this turn.");
+            return actionObj;
+        }
+
+        if (heroCard.getName().equals("Lord Royce") || heroCard.getName().equals("Empress Thorina")) {
+            if ((currentPlayer == 1 && affectedRow > 1) || (currentPlayer == 2 && affectedRow < 2)) {
+                actionObj.put("error", "Selected row does not belong to the enemy.");
+                return actionObj;
+            }
+            heroCard.useHeroAbility(game.getTable(), affectedRow);
+        } else {
+            if ((currentPlayer == 1 && affectedRow < 2) || (currentPlayer == 2 && affectedRow > 1)) {
+                actionObj.put("error", "Selected row does not belong to the current player.");
+                return actionObj;
+            }
+            heroCard.useHeroAbility(game.getTable(), affectedRow);
+        }
+
+        heroCard.setHasAttacked(true);
+        player.setMana(player.getMana() - heroCard.getMana());
+
+        return null;
+    }
+
+    public static ObjectNode getPlayerWins(Game game, String command) {
+        ObjectNode actionObj = (new ObjectMapper()).createObjectNode();
+        actionObj.put("command", command);
+
+        if (command.equals("getPlayerOneWins"))
+            actionObj.put("output", Game.getPlayerOneWins());
+        else
+            actionObj.put("output", Game.getPlayerTwoWins());
+
+        return actionObj;
+    }
+
+    public static ObjectNode getTotalGamesPlayed(Game game, String command) {
+        ObjectNode actionObj = (new ObjectMapper()).createObjectNode();
+        actionObj.put("command", command);
+        actionObj.put("output", Game.getTotalGamesPlayed());
+        return actionObj;
+    }
 }
+

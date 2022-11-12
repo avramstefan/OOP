@@ -74,41 +74,23 @@ public final class Main {
 
         ArrayNode output = objectMapper.createArrayNode();
 
-        //TODO add here the entry point to your implementation
-
         DecksInput playerOneDecks = inputData.getPlayerOneDecks();
         DecksInput playerTwoDecks = inputData.getPlayerTwoDecks();
         ArrayList<GameInput> games = inputData.getGames();
 
-//        for (int i = 0; i < games.size(); i++) {
-//            inputData.setGameIdx(inputData.getGameIdx() + 1);
-//            inputData.getGames().get(inputData.getGameIdx()).setGameParameters(inputData);
-//
-//            StartGameInput startGame = games.get(i).getStartGame();
-//            ArrayList<ActionsInput> gameActions = games.get(i).getActions();
-//
-//            for (int j = 0; j < gameActions.size(); j++) {
-//                ObjectNode newActionObject = objectMapper.createObjectNode();
-//
-//                gameActions.get(j).run(newActionObject, objectMapper, inputData);
-//
-//                output.add(newActionObject);
-//            }
-//        }
-
-        for (GameInput game : inputData.getGames()) {
+        Game.resetScores();
+        for (GameInput game : games) {
             game.setGameParameters(inputData);
 
             Decks newPlayerOneDeck = new Decks(playerOneDecks);
             Decks newPlayerTwoDeck = new Decks(playerTwoDecks);
 
-            Player playerOne = new Player(newPlayerOneDeck, game.getStartGame(), 1);
-            Player playerTwo = new Player(newPlayerTwoDeck, game.getStartGame(), 2);
+            Player playerOne = new Player(newPlayerOneDeck, game.getStartGame(), 1, game.getStartGame().getShuffleSeed());
+            Player playerTwo = new Player(newPlayerTwoDeck, game.getStartGame(), 2, game.getStartGame().getShuffleSeed());
 
             Game currentGame = new Game(game.getStartGame(), playerOne, playerTwo, game.getActions());
             currentGame.runGame(output);
         }
-
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePath2), output);
