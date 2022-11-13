@@ -245,6 +245,8 @@ public final class DebuggingCommands {
         getSingleCard(cardNode, card);
 
         actionObj.set("output", cardNode);
+        actionObj.put("x", x);
+        actionObj.put("y", y);
 
         return actionObj;
     }

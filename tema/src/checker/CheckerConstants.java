@@ -13,11 +13,11 @@ public final class CheckerConstants {
     public static final Integer BIG_TEST_POINTS = 3;
     public static final Integer MAXIMUM_ERROR_CHECKSTYLE = 30;
     public static final Integer CHECKSTYLE_POINTS = 10;
-    public static final String TESTS_PATH = "tema/input/";
+    public static final String TESTS_PATH = "input/";
     public static final String OUT_PATH = "result/out_";
-    public static final String REF_PATH = "tema/ref/ref_";
+    public static final String REF_PATH = "ref/ref_";
     public static final String RESULT_PATH = "result";
-    public static final String OUT_FILE = "tema/out.txt";
+    public static final String OUT_FILE = "out.txt";
     public static final String GAME_START = "game_start";
     public static final String MULTIPLE_GAMES_VALID = "multiple_games_valid";
     public static final String MULTIPLE_GAMES_INVALID = "multiple_games_invalid";
