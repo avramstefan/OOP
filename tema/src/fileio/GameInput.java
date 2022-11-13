@@ -10,26 +10,11 @@ public final class GameInput {
         public GameInput() {
         }
 
-        public void setGameParameters(Input inputData) {
-                StartGameInput startGame = getStartGame();
-
-                if (startGame.getPlayerOneHero() != null)
-                        startGame.getPlayerOneHero().setHealth(30);
-
-                if (startGame.getPlayerTwoHero() != null)
-                        startGame.getPlayerTwoHero().setHealth(30);
-
-                playerTurn = startGame.getStartingPlayer();
-
-//                inputData.getPlayerOneDecks().shuffleDeck(startGame.getPlayerOneDeckIdx(), startGame.getShuffleSeed());
-//                inputData.getPlayerTwoDecks().shuffleDeck(startGame.getPlayerTwoDeckIdx(), startGame.getShuffleSeed());
-        }
-
         public int getPlayerTurn() {
                 return playerTurn;
         }
 
-        public void setPlayerTurn(int playerTurn) {
+        public void setPlayerTurn(final int playerTurn) {
                 this.playerTurn = playerTurn;
         }
 
@@ -49,13 +34,4 @@ public final class GameInput {
                 this.actions = actions;
         }
 
-        @Override
-        public String toString() {
-                return "GameInput{"
-                        +  "startGame="
-                        + startGame
-                        + ", actions="
-                        + actions
-                        + '}';
-        }
 }

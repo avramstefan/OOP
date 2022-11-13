@@ -6,18 +6,10 @@ public final class Input {
     private DecksInput playerOneDecks;
     private DecksInput playerTwoDecks;
     private ArrayList<GameInput> games;
-    private int gameIdx = -1;
 
     public Input() {
     }
 
-    public int getGameIdx() {
-        return gameIdx;
-    }
-
-    public void setGameIdx(int gameIdx) {
-        this.gameIdx = gameIdx;
-    }
     public ArrayList<GameInput> getGames() {
         return games;
     }
@@ -40,17 +32,5 @@ public final class Input {
 
     public void setPlayerTwoDecks(final DecksInput playerTwoDecks) {
         this.playerTwoDecks = playerTwoDecks;
-    }
-
-    @Override
-    public String toString() {
-        return "Input{"
-                + "player_one_decks="
-                + playerOneDecks
-                + ", player_two_decks="
-                + playerTwoDecks
-                +  ", games="
-                + games
-                +  '}';
     }
 }

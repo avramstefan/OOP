@@ -1,17 +1,16 @@
 package main;
 
-import Decks.Decks;
-import GameLogic.Game;
-import Players.Player;
+import decks.Decks;
+import fileio.DecksInput;
+import fileio.GameInput;
+import fileio.Input;
+import game.Game;
+import players.Player;
 import checker.Checker;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import checker.CheckerConstants;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import fileio.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -80,15 +79,17 @@ public final class Main {
 
         Game.resetScores();
         for (GameInput game : games) {
-            game.setGameParameters(inputData);
 
             Decks newPlayerOneDeck = new Decks(playerOneDecks);
             Decks newPlayerTwoDeck = new Decks(playerTwoDecks);
 
-            Player playerOne = new Player(newPlayerOneDeck, game.getStartGame(), 1, game.getStartGame().getShuffleSeed());
-            Player playerTwo = new Player(newPlayerTwoDeck, game.getStartGame(), 2, game.getStartGame().getShuffleSeed());
+            Player playerOne = new Player(newPlayerOneDeck, game.getStartGame(), 1,
+                                            game.getStartGame().getShuffleSeed());
+            Player playerTwo = new Player(newPlayerTwoDeck, game.getStartGame(), 2,
+                                            game.getStartGame().getShuffleSeed());
 
-            Game currentGame = new Game(game.getStartGame(), playerOne, playerTwo, game.getActions());
+            Game currentGame = new Game(game.getStartGame(), playerOne,
+                                        playerTwo, game.getActions());
             currentGame.runGame(output);
         }
 
@@ -97,29 +98,3 @@ public final class Main {
     }
 }
 
-/*
-class Cards:
-    Minion:
-        -Sentinel
-        -Berserker
-        -Goliath
-        -Warden
-        -Miraj
-        -The Ripper
-        -Disciple
-        -The Cursed One
-    Environment
-        -Firestorm
-        -Winterfell
-        -Heart Hound
-    Hero
-        -Lord Royce
-        -Empress Thorina
-        -King Mudface
-        -General Kocioraw
-class Players:
-    PlayerOne
-    PlayerTwo
-class Decks:
-class Game:
- */
